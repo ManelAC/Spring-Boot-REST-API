@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,17 +30,22 @@ import lombok.ToString;
 public class Recommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Long recommendationId;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="userId")
+    @NotNull
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="movieId")
+    @NotNull
     private Movie movie;
 
+    @NotNull
     private Double score;
 
+    @NotNull
     private LocalDate recommendationDate;
 }

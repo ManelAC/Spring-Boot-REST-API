@@ -90,5 +90,4 @@ public class RecommendationService {
 
         recommendationRepository.deleteById(recommendationId);
     }
-    
 }
