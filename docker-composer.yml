@@ -3,7 +3,7 @@ version: "3.8"
 services:
     database:
         image: postgres
-        container_name: database
+        container_name: postgresql_database_movie_recommendations
         environment:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres

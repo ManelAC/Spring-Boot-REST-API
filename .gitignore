@@ -1,2 +1,7 @@
+### VS Code ###
+.vscode/
+
 # Until the app is done, we ignore the folder containing the database so modifications in it will be ignored by Git
 database/
+
+to do.txt
