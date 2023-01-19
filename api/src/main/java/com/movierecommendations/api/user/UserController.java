@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
 
@@ -27,32 +27,32 @@ public class UserController {
     }
 
     @Operation(summary = "Returns a list of all the users.")
-    @GetMapping("/getallusers")
+    @GetMapping("/users")
 	public List<User> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
     @Operation(summary = "Returns the id of the user with a specific email.")
-    @GetMapping("/getuserid/{email}")
+    @GetMapping("/users/{email}")
 	public Long getSpecificUserId(@Valid @PathVariable("email") @Parameter(description = "Email of the user.") String email) {
 		return userService.getSpecificUserId(email);
 	}
 
     @Operation(summary = "Adds a new user into the database based on the information provided.")
-    @PostMapping("/addnewuser")
+    @PostMapping("/users")
     public User newUser(@Valid @RequestBody @Parameter(description = "Data of the new user.") User user) {
         return userService.addNewUser(user);
     }
 
     @Operation(summary = "Updates the values of the corresponding user.")
-    @PutMapping("/updateuser/{id}")
+    @PutMapping("/users/{id}")
     public User updateUser(@Valid @PathVariable("id") @Parameter(description = "Id of the user to be updated.") Long id, 
         @Valid @RequestBody @Parameter(description = "Updated data of the user.") User user) {
         return userService.updateUser(id, user);
     }
 
     @Operation(summary = "Deletes the corresponding user from the database.")
-    @DeleteMapping("/deleteuser/{id}")
+    @DeleteMapping("/users/{id}")
     public void deleteUser(@Valid @PathVariable("id") @Parameter(description = "Id of the user to be deleted.") Long id) {
         userService.deleteUser(id);
     }

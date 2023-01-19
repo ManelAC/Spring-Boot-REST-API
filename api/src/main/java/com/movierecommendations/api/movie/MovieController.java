@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/movie")
+@RequestMapping("/api/v1/movies")
 public class MovieController {
     private final MovieService movieService;
 
@@ -27,32 +27,32 @@ public class MovieController {
     }
 
     @Operation(summary = "Returns a list of all the movies.")
-    @GetMapping("/getallmovies")
+    @GetMapping("/movies")
 	public List<Movie> getAllMovies() {
 		return movieService.getAllMovies();
 	}
 
     @Operation(summary = "Returns the the list of movies that contain the specified title.")
-    @GetMapping("/getmovielist/{title}")
+    @GetMapping("/movies/{title}")
 	public List<Movie> getSpecificMovieId(@Valid @PathVariable("title") @Parameter(description = "Title of the movie. Not case sensitive.") String title) {
 		return movieService.getMoviesWithTitle(title);
 	}
 
     @Operation(summary = "Adds a new movie into the database based on the information provided.")
-    @PostMapping("/addnewmovie")
+    @PostMapping("/movies")
     public Movie newMovie(@Valid @RequestBody @Parameter(description = "Data of the new movie.") Movie movie) {
         return movieService.addNewMovie(movie);
     }
 
     @Operation(summary = "Updates the values of the corresponding movie.")
-    @PutMapping("/updatemovie/{id}")
+    @PutMapping("/movies/{id}")
     public Movie updateMovie(@Valid @PathVariable("id") @Parameter(description = "Id of the movie to be updated.") Long id, 
         @Valid @RequestBody @Parameter(description = "Updated data of the movie.") Movie movie) {
         return movieService.updateMovie(id, movie);
     }
 
     @Operation(summary = "Deletes the corresponding movie from the database.")
-    @DeleteMapping("/deletemovie/{id}")
+    @DeleteMapping("/movies/{id}")
     public void deleteMovie(@Valid @PathVariable("id") @Parameter(description = "Id of the movie to be deleted.") Long id) {
         movieService.deleteMovie(id);
     }

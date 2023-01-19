@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/recommendation")
+@RequestMapping("/api/v1/recommendations")
 public class RecommendationController {
     private final RecommendationService recommendationService;
 
@@ -27,38 +27,38 @@ public class RecommendationController {
     }
 
     @Operation(summary = "Returns a list of all the recommendations.")
-    @GetMapping("/getallrecommendations")
+    @GetMapping("/recommendations")
 	public List<Recommendation> getAllRecommendations() {
 		return recommendationService.getAllRecommendations();
 	}
 
     @Operation(summary = "Returns all the recommendations from a specific user.")
-    @GetMapping("/getuserrecommendation/{userid}")
+    @GetMapping("/recommendations/user/{userid}")
 	public List<Recommendation> getAllRecommendationsFromUser(@Valid @PathVariable("userid") @Parameter(description = "User ID.") Long userId) {
 		return recommendationService.getAllRecommendationsFromUser(userId);
 	}
 
     @Operation(summary = "Returns all the recommendations for a specific movie.")
-    @GetMapping("/getmovierecommendation/{movieid}")
+    @GetMapping("/recommendations/movie/{movieid}")
 	public List<Recommendation> getAllRecommendationsForMovie(@Valid @PathVariable("movieid") @Parameter(description = "Movie ID.") Long movieId) {
 		return recommendationService.getAllRecommendationsForMovie(movieId);
 	}
 
     @Operation(summary = "Adds a new recommendation into the database based on the information provided.")
-    @PostMapping("/addnewrecommendation")
+    @PostMapping("/recommendations")
     public Recommendation newRecommendation(@Valid @RequestBody @Parameter(description = "Data of the new recommendation.") Recommendation recommendation) {
         return recommendationService.addNewRecommendation(recommendation);
     }
 
     @Operation(summary = "Updates the values of the corresponding recommendation.")
-    @PutMapping("/updaterecommendation/{id}")
+    @PutMapping("/recommendations/{id}")
     public Recommendation updateRecommendation(@Valid @PathVariable("id") @Parameter(description = "Id of the recommendation to be updated.") Long id, 
         @Valid @RequestBody @Parameter(description = "Updated data of the recommendation.") Recommendation recommendation) {
         return recommendationService.updateRecommendation(id, recommendation);
     }
 
     @Operation(summary = "Deletes the corresponding recommendation from the database.")
-    @DeleteMapping("/deleterecommendation/{id}")
+    @DeleteMapping("/recommendations/{id}")
     public void deleteRecommendation(@Valid @PathVariable("id") @Parameter(description = "Id of the recommendation to be deleted.") Long id) {
         recommendationService.deleteRecommendation(id);
     }
