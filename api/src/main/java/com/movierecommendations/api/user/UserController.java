@@ -40,15 +40,15 @@ public class UserController {
 
     @Operation(summary = "Adds a new user into the database based on the information provided.")
     @PostMapping("/users")
-    public User newUser(@Valid @RequestBody @Parameter(description = "Data of the new user.") User user) {
-        return userService.addNewUser(user);
+    public UserDTO newUser(@Valid @RequestBody @Parameter(description = "Data of the new user.") UserDTO userDTO) {
+        return userService.addNewUser(userDTO);
     }
 
     @Operation(summary = "Updates the values of the corresponding user.")
     @PutMapping("/users/{id}")
-    public User updateUser(@Valid @PathVariable("id") @Parameter(description = "Id of the user to be updated.") Long id, 
-        @Valid @RequestBody @Parameter(description = "Updated data of the user.") User user) {
-        return userService.updateUser(id, user);
+    public UserDTO updateUser(@Valid @PathVariable("id") @Parameter(description = "Id of the user to be updated.") Long id, 
+        @Valid @RequestBody @Parameter(description = "Updated data of the user.") UserDTO userDTO) {
+        return userService.updateUser(id, userDTO);
     }
 
     @Operation(summary = "Deletes the corresponding user from the database.")
