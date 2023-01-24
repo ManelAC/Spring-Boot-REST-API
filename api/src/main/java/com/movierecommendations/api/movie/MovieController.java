@@ -40,15 +40,15 @@ public class MovieController {
 
     @Operation(summary = "Adds a new movie into the database based on the information provided.")
     @PostMapping("/movies")
-    public Movie newMovie(@Valid @RequestBody @Parameter(description = "Data of the new movie.") Movie movie) {
-        return movieService.addNewMovie(movie);
+    public MovieDTO newMovie(@Valid @RequestBody @Parameter(description = "Data of the new movie.") MovieDTO movieDTO) {
+        return movieService.addNewMovie(movieDTO);
     }
 
     @Operation(summary = "Updates the values of the corresponding movie.")
     @PutMapping("/movies/{id}")
-    public Movie updateMovie(@Valid @PathVariable("id") @Parameter(description = "Id of the movie to be updated.") Long id, 
-        @Valid @RequestBody @Parameter(description = "Updated data of the movie.") Movie movie) {
-        return movieService.updateMovie(id, movie);
+    public MovieDTO updateMovie(@Valid @PathVariable("id") @Parameter(description = "Id of the movie to be updated.") Long id, 
+        @Valid @RequestBody @Parameter(description = "Updated data of the movie.") MovieDTO movieDTO) {
+        return movieService.updateMovie(id, movieDTO);
     }
 
     @Operation(summary = "Deletes the corresponding movie from the database.")

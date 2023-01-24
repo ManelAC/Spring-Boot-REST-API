@@ -24,7 +24,6 @@ import lombok.ToString;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long movieId;
     
     @NotNull
