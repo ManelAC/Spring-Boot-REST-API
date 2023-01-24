@@ -46,15 +46,15 @@ public class RecommendationController {
 
     @Operation(summary = "Adds a new recommendation into the database based on the information provided.")
     @PostMapping("/recommendations")
-    public Recommendation newRecommendation(@Valid @RequestBody @Parameter(description = "Data of the new recommendation.") Recommendation recommendation) {
-        return recommendationService.addNewRecommendation(recommendation);
+    public Recommendation newRecommendation(@Valid @RequestBody @Parameter(description = "Data of the new recommendation.") RecommendationDTO recommendationDTO) {
+        return recommendationService.addNewRecommendation(recommendationDTO);
     }
 
     @Operation(summary = "Updates the values of the corresponding recommendation.")
     @PutMapping("/recommendations/{id}")
     public Recommendation updateRecommendation(@Valid @PathVariable("id") @Parameter(description = "Id of the recommendation to be updated.") Long id, 
-        @Valid @RequestBody @Parameter(description = "Updated data of the recommendation.") Recommendation recommendation) {
-        return recommendationService.updateRecommendation(id, recommendation);
+        @Valid @RequestBody @Parameter(description = "Updated data of the recommendation.") RecommendationDTO recommendationDTO) {
+        return recommendationService.updateRecommendation(id, recommendationDTO);
     }
 
     @Operation(summary = "Deletes the corresponding recommendation from the database.")

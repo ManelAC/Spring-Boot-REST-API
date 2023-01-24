@@ -2,6 +2,8 @@ package com.movierecommendations.api.recommendation;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.movierecommendations.api.movie.Movie;
@@ -12,7 +14,6 @@ import com.movierecommendations.api.user.UserRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-//@EnableJpaRepositories(basePackages = {"com.movierecommendations.api.user", "com.movierecommendations.api.movie"})
 public class RecommendationService {
     private final RecommendationRepository recommendationRepository;
     private final UserRepository userRepository;
@@ -36,49 +37,58 @@ public class RecommendationService {
         return recommendationRepository.findByMovieMovieId(movieId);
     }
 
-    public Recommendation addNewRecommendation(Recommendation recommendation) {
-        User userFromDatabase = userRepository.findById(recommendation.getUser().getUserId()).orElseThrow(() -> new IllegalStateException("No user has the ID: " + recommendation.getUser().getUserId()));
+    public Recommendation addNewRecommendation(RecommendationDTO recommendationDTO) {
+        Recommendation recommendation = new Recommendation();
 
-        Movie movieFromDatabase = movieRepository.findById(recommendation.getMovie().getMovieId()).orElseThrow(() -> new IllegalStateException("No movie has the ID: " + recommendation.getMovie().getMovieId()));
+        Optional<User> optionalUser = userRepository.findById(recommendationDTO.getUserId());
+        User userFromDatabase = optionalUser.orElseThrow(() -> new IllegalStateException("No user has the ID: " + recommendationDTO.getUserId()));
 
-        if(recommendation.getScore() == null) {
-            throw new IllegalStateException("Recommendation not created, score can not be null.");
-        }
-        else if(recommendation.getScore() < 0) {
-            throw new IllegalStateException("Recommendation not created, score can't be lower than 0.");
-        }
-        else if(recommendation.getScore() > 10) {
-            throw new IllegalStateException("Recommendation not created, score can't be higher than 10.");
-        }
+        Optional<Movie> optionalMovie = movieRepository.findById(recommendationDTO.getMovieId());
+        Movie movieFromDatabase = optionalMovie.orElseThrow(() -> new IllegalStateException("No movie has the ID: " + recommendationDTO.getMovieId()));
 
         recommendation.setUser(userFromDatabase);
         recommendation.setMovie(movieFromDatabase);
 
+        if(recommendationDTO.getScore() == null) {
+            throw new IllegalStateException("Recommendation not created, score can not be null.");
+        }
+        else if(recommendationDTO.getScore() < 0) {
+            throw new IllegalStateException("Recommendation not created, score can't be lower than 0.");
+        }
+        else if(recommendationDTO.getScore() > 10) {
+            throw new IllegalStateException("Recommendation not created, score can't be higher than 10.");
+        }
+
+        recommendation.setScore(recommendationDTO.getScore());
         recommendation.setRecommendationDate(LocalDate.now());
 
         return recommendationRepository.save(recommendation);
     }
 
     @Transactional
-    public Recommendation updateRecommendation(Long recommendationId, Recommendation updatedRecommendation) {
+    public Recommendation updateRecommendation(Long recommendationId, RecommendationDTO updatedRecommendationDTO) {
         Recommendation recommendationFromDatabase = recommendationRepository.findById(recommendationId).orElseThrow(() -> new IllegalStateException("No recommendation has the ID: " + recommendationId));
 
-        User userFromDatabase = userRepository.findById(updatedRecommendation.getUser().getUserId()).orElseThrow(() -> new IllegalStateException("No user has the ID: " + updatedRecommendation.getUser().getUserId()));
+        Optional<User> optionalUser = userRepository.findById(updatedRecommendationDTO.getUserId());
+        User userFromDatabase = optionalUser.orElseThrow(() -> new IllegalStateException("No user has the ID: " + updatedRecommendationDTO.getUserId()));
 
-        Movie movieFromDatabase = movieRepository.findById(updatedRecommendation.getMovie().getMovieId()).orElseThrow(() -> new IllegalStateException("No movie has the ID: " + updatedRecommendation.getMovie().getMovieId()));
-
-        if(updatedRecommendation.getScore() == null) {
-            throw new IllegalStateException("Recommendation not created, score can not be null.");
-        }
-        else if(updatedRecommendation.getScore() < 0) {
-            throw new IllegalStateException("Recommendation not created, score can't be lower than 0.");
-        }
-        else if(updatedRecommendation.getScore() > 10) {
-            throw new IllegalStateException("Recommendation not created, score can't be higher than 10.");
-        }
+        Optional<Movie> optionalMovie = movieRepository.findById(updatedRecommendationDTO.getMovieId());
+        Movie movieFromDatabase = optionalMovie.orElseThrow(() -> new IllegalStateException("No movie has the ID: " + updatedRecommendationDTO.getMovieId()));
 
         recommendationFromDatabase.setUser(userFromDatabase);
         recommendationFromDatabase.setMovie(movieFromDatabase);
+
+        if(updatedRecommendationDTO.getScore() == null) {
+            throw new IllegalStateException("Recommendation not created, score can not be null.");
+        }
+        else if(updatedRecommendationDTO.getScore() < 0) {
+            throw new IllegalStateException("Recommendation not created, score can't be lower than 0.");
+        }
+        else if(updatedRecommendationDTO.getScore() > 10) {
+            throw new IllegalStateException("Recommendation not created, score can't be higher than 10.");
+        }
+
+        recommendationFromDatabase.setScore(updatedRecommendationDTO.getScore());
 
         return recommendationRepository.save(recommendationFromDatabase);
     }
