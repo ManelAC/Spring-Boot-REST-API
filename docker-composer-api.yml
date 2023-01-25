@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+    api:
+        build:
+            context: api
+            dockerfile: Dockerfile
+        ports:
+            - 8080:8080
+        restart: always
+        networks:
+            - my-docker-network
+        environment:
+            SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql_database_movie_recommendations:5432/postgres
+volumes:
+    postgres-volume:
+networks:
+    my-docker-network:

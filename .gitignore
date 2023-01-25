@@ -1,2 +1,11 @@
-# Until the app is done, we ignore the folder containing the database so modifications in it will be ignored by Git
+### VS Code ###
+.vscode/
+
+### To do ###
+api/src/test/java/com/movierecommendations/api/*Integration*
+
+### Database files ###
 database/
+
+### Others ###
+extras/
